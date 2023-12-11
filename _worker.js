@@ -1,8 +1,6 @@
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
-
-async function handleRequest(request) {
+export default {
+async fetch(request, env, ctx) {
+  try {
   const url = new URL(request.url);
   const actualUrlStr = url.pathname.replace("/proxy/","") + url.search + url.hash
 
@@ -22,4 +20,9 @@ async function handleRequest(request) {
   modifiedResponse.headers.set('Access-Control-Allow-Origin', '*');
 
   return modifiedResponse;
+  } catch (err) {
+			let e = err;
+      return new Response(e.toString());
+  }
+}
 }
